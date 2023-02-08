@@ -1,0 +1,18 @@
+Protocol: sep1
+
+Types:
+Agent C, M;
+Number N, Msg;
+Function sk;
+
+Knowledge:
+C: C, M, sk(C, M);
+M: C, M, sk(C, M);
+
+Actions:
+C -> M: N
+M -> C: {|N, Msg|}sk(C, M)
+
+Goals:
+C authenticates M on Msg
+Msg  secret between C, M
