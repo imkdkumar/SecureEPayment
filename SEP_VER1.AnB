@@ -1,0 +1,17 @@
+Protocol: SEP_VER1
+
+Types:
+Agent CUST, PAPP, MERCH, PGWAY;
+Number PIN, ORDER, ;
+Function: card_number,pk,sk,pin;
+
+Knowledge:
+#CUST: CUST, PAPP, pin(CUST, PAPP), card_number(CUST);
+#PAPP: CUST, PAPP, pin(CUST, PAPP), MERCH, 
+PAPP: PAPP, MERCH, PGWAY, pk(MERCH), pk(PGWAY); 
+MERCH: MERCH, PAPP, PGWAY, sk(MERCH, PGWAY);
+PGWAY: MERCH, PGWAY, sk(MERCH, PGWAY);
+
+Actions:
+PAPP -> MERCH : PAPP, MERCH, ORDER
+MERCH -> PAPP : 
