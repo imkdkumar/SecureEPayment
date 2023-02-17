@@ -1,17 +1,27 @@
+
 Protocol: SEP_VER1
 
 Types:
-Agent CUST, PAPP, MERCH, PGWAY;
-Number PIN, ORDER, ;
-Function: card_number,pk,sk,pin;
+Agent C, M, PG;
+Number OD, PRICE;
+Function sk,pk,card_number,secretk;
 
 Knowledge:
-#CUST: CUST, PAPP, pin(CUST, PAPP), card_number(CUST);
-#PAPP: CUST, PAPP, pin(CUST, PAPP), MERCH, 
-PAPP: PAPP, MERCH, PGWAY, pk(MERCH), pk(PGWAY); 
-MERCH: MERCH, PAPP, PGWAY, sk(MERCH, PGWAY);
-PGWAY: MERCH, PGWAY, sk(MERCH, PGWAY);
+
+C: M,C,PG,pk(M),pk(C),pk(PG),inv(pk(C)), secretk(M), secretk(C);
+M: C,M,PG,pk(M),pk(C),pk(PG),inv(pk(M)),secretk(M), secretk(C);
+PG: C,M,PG,pk(M),pk(C),pk(PG),inv(pk(PG));
 
 Actions:
-PAPP -> MERCH : PAPP, MERCH, ORDER
-MERCH -> PAPP : 
+
+C->M : C,M,OD, 
+M->C : C,M,OD,PRICE
+C->PG : C,PRICE,card_number(C)
+
+
+Goals:
+
+M authenticates C on secretk(C)
+C authenticates C on secretk(M)
+OD secret between M,C
+#OD secret between PG,M
