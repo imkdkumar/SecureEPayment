@@ -5,18 +5,19 @@ Types:
 Agent C, M, PG;
 Number OD, PRICE;
 Function sk,pk,card_number,secretk;
+Symmetric_key KCM;
 
 Knowledge:
 
-C: M,C,PG,pk(M),pk(C),pk(PG),inv(pk(C)), card_number(C);
-M: C,M,PG,pk(M),pk(C),pk(PG),inv(pk(M));
-PG: C,M,PG,pk(M),pk(C),pk(PG),inv(pk(PG));
+C: M,C,PG,pk(M),pk(PG),inv(pk(C)), card_number(C), sk(C,M);
+M: C,M,PG,pk(M),pk(PG),inv(pk(M));
+PG: C,M,PG,pk(M),pk(PG),inv(pk(PG));
 
 Actions:
 
-C->M : {C,M,OD}pk(M) 
-M->C : {C,M,OD,PRICE}pk(C)
+C->M : {C,M,OD, KCM}pk(M) 
+M->C : {|C,M,OD,PRICE|}KCM
 
 Goals:
 
-C authenticates M on OD
+C authenticates M on OD, PRICE

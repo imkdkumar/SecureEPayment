@@ -1,25 +1,27 @@
-Protocol: SEP_VER1
+Protocol: SEP_VER2
 
 Types:
 Agent C, M, pg;
-Number OD, PR;
+Number OD, PRICE,CODE, VERCODE, SUCCESSCODE;
 Function sk,pk,card_number,secretk;
+Symmetric_key KCM, KCPG;
 
 Knowledge:
 
-C: M,C,pg,pk(M),pk(C),pk(pg),inv(pk(C)),card_number(C) ;
+C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C), sk(C,M);
 M: C,M,pg,pk(M),pk(pg),inv(pk(M));
-PG: C,M,pg,pk(M),pk(C),pk(pg),inv(pk(pg));
+pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
 
 Actions:
 
-C->M : {C,M,OD}pk(M) 
-M->C : {C,M,OD,PR}inv(pk(M))
-#C->M : {C,M,OD,card_number(C)}pk(M)
+C->M : {C,M,OD, KCM}pk(M) 
+M->C : {|C,M,OD,PRICE|}KCM
+C->pg: {C,PRICE,card_number(C),KCPG}pk(pg)
+pg->C: {|C,PRICE,card_number(C),CODE|}KCPG
+C->pg: {|C,PRICE,card_number(C),CODE, VERCODE|}KCPG
+pg->M: {SUCCESSCODE}pk(M)
 
 Goals:
 
-C authenticates M on OD
-#M authenticates C on card_number(C)
-#OD secret between M,C
-#OD secret between PG,M
+C authenticates M on OD, PRICE
+OD secret between M, C
