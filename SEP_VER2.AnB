@@ -1,0 +1,25 @@
+Protocol: SEP_VER1
+
+Types:
+Agent C, M, pg;
+Number OD, PR;
+Function sk,pk,card_number,secretk;
+
+Knowledge:
+
+C: M,C,pg,pk(M),pk(C),pk(pg),inv(pk(C)),card_number(C) ;
+M: C,M,pg,pk(M),pk(pg),inv(pk(M));
+PG: C,M,pg,pk(M),pk(C),pk(pg),inv(pk(pg));
+
+Actions:
+
+C->M : {C,M,OD}pk(M) 
+M->C : {C,M,OD,PR}inv(pk(M))
+#C->M : {C,M,OD,card_number(C)}pk(M)
+
+Goals:
+
+C authenticates M on OD
+#M authenticates C on card_number(C)
+#OD secret between M,C
+#OD secret between PG,M
