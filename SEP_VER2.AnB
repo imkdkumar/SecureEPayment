@@ -2,24 +2,30 @@ Protocol: SEP_VER2
 
 Types:
 Agent C, M, pg;
-Number OD, PRICE,CODE, VERCODE, SUCCESSCODE;
+Number OD, PRICE, VERCODE;
 Function sk,pk,card_number,secretk;
-Symmetric_key KCM, KCPG;
+Symmetric_key KCM;
 
 Knowledge:
 
-C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C), sk(C,M);
+C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C);
 M: C,M,pg,pk(M),pk(pg),inv(pk(M));
 pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
+
 
 Actions:
 
 C->M : {C,M,OD, KCM}pk(M) 
 M->C : {|C,M,OD,PRICE|}KCM
-C->pg: {C,PRICE,card_number(C),KCPG}pk(pg)
-pg->C: {|C,PRICE,card_number(C),CODE|}KCPG
-C->pg: {|C,PRICE,card_number(C),CODE, VERCODE|}KCPG
-pg->M: {SUCCESSCODE}pk(M)
+
+C->M : {C, M, OD, PRICE, card_number(C)}pk(M)
+M->pg: {C, M,pg, PRICE, card_number(C)}pk(pg)
+pg->C: {C,M,pg, PRICE, VERCODE}(inv(pk(pg)))
+C->M: {C,M,OD,VERCODE,KCM}pk(M)
+
+M->C: {|C,M,OD|}KCM
+
+#M->pg: {C,M,pg,PRICE}pk(pg)
 
 Goals:
 
