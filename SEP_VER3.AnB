@@ -1,0 +1,23 @@
+Protocol: SEP_VER2
+
+Types:
+Agent C, M, pg;
+Number OD, PRICE, VERCODE;
+Function sk,pk,card_number,secretk;
+Symmetric_key KCM;
+
+Knowledge:
+
+C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C);
+M: C,M,pg,pk(M),pk(pg),inv(pk(M));
+pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
+
+
+Actions:
+
+
+
+Goals:
+
+C authenticates M on OD, PRICE
+OD secret between M, C
