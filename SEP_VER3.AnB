@@ -2,22 +2,30 @@ Protocol: SEP_VER2
 
 Types:
 Agent C, M, pg;
-Number OD, PRICE, VERCODE;
+Number OD, PRICE, VERCODE, NOTIF;
 Function sk,pk,card_number,secretk;
 Symmetric_key KCM;
 
 Knowledge:
 
-C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C);
-M: C,M,pg,pk(M),pk(pg),inv(pk(M));
-pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
+C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C), sk(C, pg);
+M: C,M,pg,pk(M),inv(pk(M));
+pg: C,M,pg,pk(M),pk(pg),inv(pk(pg)), sk(C, pg);
 
 
 Actions:
 
+C->M : {C,M,OD, KCM}pk(M) 
+M->C : {|C,M,PRICE|}KCM
+C->pg: {|C, M,pg, PRICE, card_number(C)|}sk(C, pg)
+# payment gate way somehow need to perform authetication on c
+pg->C: {|C,M,pg, PRICE, VERCODE|}sk(C, pg)
+pg->M: {M, pg, NOTIF}pk(M)
 
+#M->pg: {C,M,pg,PRICE}pk(pg)
 
 Goals:
 
 C authenticates M on OD, PRICE
 OD secret between M, C
+card_number(C) secret between pg, C
