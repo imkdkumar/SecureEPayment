@@ -17,7 +17,6 @@ Actions:
 
 C->M : {C,M,OD, KCM}pk(M) 
 M->C : {|C,M,OD,PRICE|}KCM
-
 C->M : {C, M, OD, PRICE, card_number(C)}pk(M)
 M->pg: {C, M,pg, PRICE, card_number(C)}pk(pg)
 pg->C: {C,M,pg, PRICE, VERCODE}(inv(pk(pg)))
