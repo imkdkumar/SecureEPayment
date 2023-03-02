@@ -20,12 +20,13 @@ M -> C : {C, M, NA, NB, exp(g,Y)}inv(pk(M))
 C -> M : {|C, M, OD|}exp(exp(g,X),Y)
 M -> C:  {|C, M, OD, PRICE|}exp(exp(g,X),Y)
 C -> pg : {C, M, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
-pg -> C : {C, M, VERCODE}inv(pk(pg))
+pg -> M : {C, M, VERCODE}inv(pk(pg))
 #payment gate way somehow needs to authenticate C
 # need to find how to end the whole protocol
 # need to check what to share between C and M
 # C is not being authenticated, this is why intruder is getiing chance to play
-
+#At the same time these items must be properly linked, 
+#so that the payment cannot be used for a different order.
 
 Goals:
 C authenticates M on OD, PRICE

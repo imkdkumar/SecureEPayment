@@ -2,23 +2,24 @@
 Protocol: SEP_VER1
 
 Types:
-Agent C, M, PG;
+Agent C, M, pg;
 Number OD, PRICE;
-Function sk,pk,card_number,secretk;
+Function sk,pk,card_number;
 Symmetric_key KCM;
 
 Knowledge:
 
-C: M,C,PG,pk(M),pk(PG),inv(pk(C)), card_number(C), sk(C,M);
-M: C,M,PG,pk(M),pk(PG),inv(pk(M));
-PG: C,M,PG,pk(M),pk(PG),inv(pk(PG));
+C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C);
+M: C,M,pg,pk(M),pk(pg),inv(pk(M));
+pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
 
 Actions:
 
 C->M : {C,M,OD, KCM}pk(M) 
 M->C : {|C,M,OD,PRICE|}KCM
-C->M : {OD, PRICE, card_number(C)}pk(M)
+C->pg : {C,M, OD, PRICE, card_number(C)}pk(M)
 
 Goals:
 
 C authenticates M on OD, PRICE
+OD secret between C, M
