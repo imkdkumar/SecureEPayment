@@ -17,7 +17,7 @@ Actions:
 
 C->M : {C,M,OD, KCM}pk(M) 
 M->C : {|C,M,OD,PRICE|}KCM
-C->pg : {C,M, OD, PRICE, card_number(C)}pk(M)
+C->pg : {C,M, PRICE, card_number(C)}pk(M)
 
 Goals:
 
