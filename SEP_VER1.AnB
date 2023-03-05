@@ -5,7 +5,7 @@ Types:
 Agent C,M,pg;
 Number OD,PRICE;
 Function pk,card_number;
-Symmetric_key SK;
+Symmetric_key Sk;
 
 Knowledge:
 
@@ -16,11 +16,10 @@ pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
 Actions:
 
 C->M : {C,M,OD}pk(M) 
-M->C : C,M,OD,PRICE
+M->C : {C,M,OD,PRICE}inv(pk(M))
 C->M : {C,M, PRICE, card_number(C)}pk(M)
 
 Goals:
 
 C authenticates M on OD, PRICE
 M authenticates C on card_number(C)
-

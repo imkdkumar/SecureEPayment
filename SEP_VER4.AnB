@@ -3,15 +3,17 @@ Protocol: SEP_VER4
 
 Types:
 Agent C,M,pg;
-Number OD,PRICE,g,p,X,Y,NC,NM,VERCODE;
+Number OD,PRICE,g,p,X,Y,NC,NM,NO,Ts,Tsv,VERCODE,NPG,NCC;
 Function pk,card_number;
-Symmetric_key Sk;
+Symmetric_key SK;
 
 Knowledge:
 
-C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C),g,sk(C, pg);
+C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C),g;
 M: C,M,pg,pk(M),pk(pg),inv(pk(M)),g;
-pg: C,M,pg,pk(M),pk(pg),inv(pk(pg)),sk(pg,C);
+pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
+
+#where C!=M
 
 Actions:
 
@@ -19,14 +21,20 @@ C->M : {C,M,NC,exp(g,X)}pk(M)
 M->C : {C,M,NC,NM, exp(g,Y), exp(g,X)}inv(pk(M))
 C->M : {|C,M, OD |} exp(  exp(g,Y) , X)
 M->C : {|C,M, OD, PRICE |} exp(  exp(g,Y) , X)
-C -> pg : {C, M, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
-pg -> M : {C, M, VERCODE}inv(pk(pg))
-Goals:
+C->pg : {C,M, PRICE,SK}pk(pg)
+pg-> C : {{|C,M, PRICE ,NPG|}SK}inv(pk(pg))
+C -> pg : {C, M, PRICE,NPG, NCC,{|card_number(C)|}SK}pk(pg)
+pg -> C: {C, M, pg, PRICE,VERCODE, Ts, Tsv,NCC}inv(pk(pg))
+C -> M : {C, M, VERCODE,Ts, Tsv}pk(M)
 
+Goals:
 C authenticates M on exp(exp(g,X), Y),PRICE,OD
-M authenticates C on exp(exp(g,X), Y), OD
-exp(exp(g,X), Y),PRICE,OD secret between C,M
-#sk secret between C,pg
+M authenticates C on exp(exp(g,X), Y), OD, VERCODE, Ts
+#exp(exp(g,X), Y),PRICE,OD secret between C,M
+#SK secret between C,pg
+#pg authenticates C on NPG
+
+
 
 
 
