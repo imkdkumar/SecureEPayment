@@ -1,5 +1,5 @@
 
-Protocol: SEP_VER5
+Protocol: SEP_VER4
 
 Types:
 Agent C,M,pg;
