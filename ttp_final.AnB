@@ -1,0 +1,37 @@
+Protocol: FA1SO
+Types: 	Agent C,W,t;
+        Number Data,NC,Sid,NT,NP,Ts,TGS,Tsv,OD,PRICE;
+	Function customerID,pk,appkey;
+	Symmetric_key SK;
+
+Knowledge:
+	C: t, W, C, pk(W), pk(t), customerID(C,t), inv(appkey(C));
+	W: t, W, C, pk(W), inv(pk(W)), pk(t);
+	t: t, W, C, pk(W), pk(t), inv(pk(t)), customerID(C,t), appkey(C);
+
+where C!=W, W!=t, C!=t
+
+Actions:
+
+C -> W : C, W, Sid,OD
+W -> C : {C,W,Sid, t}inv(pk(W))
+
+# C is the customer's browser
+C -> t: {C,W, Sid, customerID(C,t),NC,SK}pk(t)
+t -> C: {|C,W, Sid, NT|}SK
+C -> t: {C,W, Sid, NT}pk(t)
+# C is the customer's smartphone app
+t -> C: {C,W, Sid, NP, Ts, Tsv}appkey(C)
+C-> t: {C,W, Sid, NP, Ts, Tsv}pk(t)
+# back to browser
+t -> W: {{C,W, Sid, NC}inv(pk(t))}pk(W)
+W -> C: {W,C, Sid, OD,PRICE}inv(pk(W))
+C -> W: {NC, Sid}pk(W)
+
+Goals:
+C authenticates W on OD
+t weakly authenticates C on customerID(C,t)
+t authenticates C on NT, NP
+W authenticates C on NC
+SK secret between C,t
+
