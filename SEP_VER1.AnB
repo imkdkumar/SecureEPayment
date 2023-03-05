@@ -5,8 +5,6 @@ Types:
 Agent C,M,pg;
 Number OD,PRICE;
 Function pk,card_number;
-Symmetric_key Sk;
-
 Knowledge:
 
 C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C);
