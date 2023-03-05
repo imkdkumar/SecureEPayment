@@ -1,4 +1,4 @@
-Protocol: 2FA1SO
+Protocol: FA1SO
 Types: 	Agent C,W,t;
         Number Data,NC,Sid,NT,NP,Ts,TGS,Tsv,OD,PRICE;
 	Function customerID,pk,appkey;
