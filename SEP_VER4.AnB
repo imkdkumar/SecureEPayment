@@ -1,4 +1,4 @@
-Protocol: SEP_VER2
+Protocol: SEP_VER4
 
 Types:
 Agent C, M, pg;
@@ -32,7 +32,7 @@ Goals:
 C authenticates M on OD, PRICE
 card_number(C) secret between C, pg
 C authenticates M on exp(exp(g,X),Y)
-exp(exp(g,X),Y) guessable secret between C, M
+exp(exp(g,X),Y) secret between C, M
 
 
 # Following goals need to be achieved
