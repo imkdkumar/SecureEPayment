@@ -5,7 +5,7 @@ Types:
 Agent C,M,pg;
 Number OD,PRICE,g,p,X,Y,NC,NM,NO,Ts,Tsv,VERCODE;
 Function pk,card_number;
-Symmetric_key Sk;
+Symmetric_key SK;
 
 Knowledge:
 
