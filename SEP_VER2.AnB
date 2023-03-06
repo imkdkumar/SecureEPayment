@@ -21,7 +21,6 @@ C->M : {C, M, OD, PRICE, card_number(C)}pk(M)
 M->pg: {C, M,pg, PRICE, card_number(C)}pk(pg)
 pg->C: {C,M,pg, PRICE, VERCODE}(inv(pk(pg)))
 C->M: {C,M,OD,VERCODE,KCM}pk(M)
-
 M->C: {|C,M,OD|}KCM
 
 #M->pg: {C,M,pg,PRICE}pk(pg)
@@ -30,3 +29,4 @@ Goals:
 
 C authenticates M on OD, PRICE
 OD secret between M, C
+card_number(C) secret between C, pg

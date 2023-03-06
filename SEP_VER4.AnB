@@ -1,4 +1,4 @@
-Protocol: SEP_VER2
+Protocol: SEP_VER4
 
 Types:
 Agent C, M, pg;
@@ -16,26 +16,25 @@ pg: C,M,pg,pk(pg),inv(pk(pg)), sk(C, pg);
 Actions:
 
 C -> M : {C, M, NA, exp(g,X)}pk(M)
-M -> C : {C, M, NA, NB, exp(g,Y)}inv(pk(M))
+M -> C : {C, M, NA, NB,exp(g,Y)}inv(pk(M))
 C -> M : {|C, M, OD|}exp(exp(g,X),Y)
 M -> C:  {|C, M, OD, PRICE|}exp(exp(g,X),Y)
+
 C -> pg : {C, M, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
-pg -> C : {C, M, VERCODE}inv(pk(pg))
+pg -> M : {C, M, VERCODE}inv(pk(pg))
 #payment gate way somehow needs to authenticate C
 # need to find how to end the whole protocol
 # need to check what to share between C and M
 # C is not being authenticated, this is why intruder is getiing chance to play
-
+#At the same time these items must be properly linked, 
+#so that the payment cannot be used for a different order.
 
 Goals:
-C authenticates M on OD, PRICE
+#C authenticates M on OD, PRICE
 card_number(C) secret between C, pg
 C authenticates M on exp(exp(g,X),Y)
-exp(exp(g,X),Y) guessable secret between C, M
 
-
-# Following goals need to be achieved
-
-#M authenticates C on exp(exp(g,X),Y)
+#following are valid for 1 session
 #exp(exp(g,X),Y) secret between C, M
 #OD secret between M, C
+#M authenticates C on exp(exp(g,X),Y)
