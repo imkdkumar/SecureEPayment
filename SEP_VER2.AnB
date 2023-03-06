@@ -1,32 +1,31 @@
+
 Protocol: SEP_VER2
 
 Types:
-Agent C, M, pg;
-Number OD, PRICE, VERCODE;
-Function sk,pk,card_number,secretk;
-Symmetric_key KCM;
+Agent C,M,pg;
+Number OD,PRICE,g,p,X,Y,NC,NM,VERCODE;
+Function pk,card_number;
 
 Knowledge:
 
-C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C);
-M: C,M,pg,pk(M),pk(pg),inv(pk(M));
-pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
-
+C: M,C,pg,pk(M),pk(pg),inv(pk(C)), card_number(C),g,sk(C, pg);
+M: C,M,pg,pk(M),pk(pg),inv(pk(M)),g;
+pg: C,M,pg,pk(M),pk(pg),inv(pk(pg)),sk(C,pg);
 
 Actions:
 
-C->M : {C,M,OD, KCM}pk(M) 
-M->C : {|C,M,OD,PRICE|}KCM
-C->M : {C, M, OD, PRICE, card_number(C)}pk(M)
-M->pg: {C, M,pg, PRICE, card_number(C)}pk(pg)
-pg->C: {C,M,pg, PRICE, VERCODE}(inv(pk(pg)))
-C->M: {C,M,OD,VERCODE,KCM}pk(M)
-M->C: {|C,M,OD|}KCM
-
-#M->pg: {C,M,pg,PRICE}pk(pg)
-
+C->M : {C,M,NC,exp(g,X)}pk(M) 
+M->C : {C,M,NC,NM, exp(g,Y), exp(g,X)}inv(pk(M))
+C->M : {|C,M, OD |} exp(  exp(g,Y) , X)
+M->C : {|C,M, OD, PRICE |} exp(  exp(g,Y) , X)
+C -> pg : {C, M, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
+pg -> M : {C, M, VERCODE}inv(pk(pg))
 Goals:
 
-C authenticates M on OD, PRICE
-OD secret between M, C
-card_number(C) secret between C, pg
+C authenticates M on exp(exp(g,X), Y),PRICE,OD
+M authenticates C on exp(exp(g,X), Y), OD
+exp(exp(g,X), Y),OD secret between C,M
+
+
+
+
