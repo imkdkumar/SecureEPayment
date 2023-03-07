@@ -3,20 +3,18 @@ Protocol: SEP_VER3
 
 Types:
 Agent C, M, pg;
-Number X,Y, OD, PRICE, VERCODE, NA, NB;
+Number X,Y, OD, PRICE, VERCODE, NC, NM;
 Function sk,pk,card_number,secretk;
 
 Knowledge:
-
 C: M,C,pg,pk(M),pk(pg), card_number(C), g, sk(C, pg);
 M: C,M,pg,pk(M),pk(pg),inv(pk(M)), g;
 pg: C,M,pg,pk(pg),inv(pk(pg)), sk(C, pg);
 
 
 Actions:
-
-C -> M : {C, M, NA, exp(g,X)}pk(M)
-M -> C : {C, M, NA, NB,exp(g,Y)}inv(pk(M))
+C -> M : {C, M, NC, exp(g,X)}pk(M)
+M -> C : {C, M, NC, NM,exp(g,Y)}inv(pk(M))
 C -> M : {|C, M, OD|}exp(exp(g,X),Y)
 M -> C:  {|C, M, OD, PRICE|}exp(exp(g,X),Y)
 C -> pg : {C, M, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
