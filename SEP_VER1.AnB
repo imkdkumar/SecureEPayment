@@ -14,8 +14,9 @@ pg: C,M,pg,pk(M),pk(pg),inv(pk(pg));
 Actions:
 C->M : {C,M,OD}pk(M) 
 M->C : {C,M,OD,PRICE}inv(pk(M))
-C->M : {C,M, PRICE, card_number(C)}pk(M)
+C->pg : {C,M, PRICE, card_number(C)}pk(pg)
 
 Goals:
-C authenticates M on OD, PRICE
-M authenticates C on card_number(C)
+C authenticates M on PRICE
+M authenticates C on OD
+card_number(C) secret between C, pg
