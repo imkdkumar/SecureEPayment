@@ -2,33 +2,30 @@ Protocol: SEP_VER4
 
 Types:
 Agent C,M,pg;
-Number OD,PRICE,g,X,Y,NC,NM,Ts,Tsv,VERCODE,NPG,NCC, NC2;
+Number OD,PRICE,g,p,X,Y,NC,NM,NO,Ts,Tsv,VERCODE,NPG,NCC, NC2;
 Function pk,card_number;
 
 Knowledge:
-
 C: M,C,pg,pk(M),pk(pg), card_number(C),g, sk(C, pg);
 M: C,M,pg,pk(M),pk(pg),inv(pk(M)),g;
 pg: C,M,pg,pk(M),pk(pg),inv(pk(pg)), sk(C, pg);
 
 Actions:
-
 C -> M : {C, M, NC, exp(g,X)}pk(M)
 M -> C : {C, M, NC, NM,exp(g,Y)}inv(pk(M))
 C -> M : {|C, M, OD|}exp(exp(g,X),Y)
 M -> C:  {|C, M, OD, PRICE|}exp(exp(g,X),Y)
-
 C->pg :{C, M, pg, NCC}pk(pg)
 pg->C :{C, M, pg, NCC, NPG}inv(pk(pg))
 C->pg : {C, M, pg,NCC, NPG, NC2, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
 pg -> M: {C, M,pg, PRICE,VERCODE, Ts, Tsv,NPG}inv(pk(pg))
-M -> C : {C,M, VERCODE, Ts, Tsv}exp(exp(g,X),Y)
+M -> C : {|C,M, VERCODE, Ts, Tsv|}exp(exp(g,X),Y)
 
 Goals:
 #following goals are valid for 2 session
-C authenticates M on exp(exp(g,X), Y),PRICE,OD
+C authenticates M on exp(exp(g,X), Y),PRICE
 card_number(C) secret between C, pg
-M authenticates C on exp(exp(g,X),Y)
+M authenticates C on exp(exp(g,X),Y), OD
 OD secret between M, C
 exp(exp(g,X),Y) secret between C, M
-pg authenticates C on NPG, card_number(C)
+pg authenticates C on NCC, card_number(C)
