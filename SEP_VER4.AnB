@@ -18,7 +18,7 @@ M -> C:  {|C, M, OD, PRICE|}exp(exp(g,X),Y)
 C->pg :{C, M, pg, NCC}pk(pg)
 pg->C :{C, M, pg, NCC, NPG}inv(pk(pg))
 C->pg : {C, M, pg,NCC, NPG, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
-pg -> M: {C, M,pg, PRICE,VERCODE,NPG}inv(pk(pg))
+pg -> M: {C, M,pg, PRICE,VERCODE}inv(pk(pg))
 M -> C : {|C,M, VERCODE|}exp(exp(g,X),Y)
 
 Goals:
