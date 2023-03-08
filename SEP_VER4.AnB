@@ -2,7 +2,7 @@ Protocol: SEP_VER4
 
 Types:
 Agent C,M,pg;
-Number OD,PRICE,g,p,X,Y,NC,NM,NO,Ts,Tsv,VERCODE,NPG,NCC, NC2;
+Number OD,PRICE,g,p,X,Y,NC,NM,NO,Ts,Tsv,VERCODE,NPG,NCC;
 Function pk,card_number;
 
 Knowledge:
@@ -17,7 +17,7 @@ C -> M : {|C, M, OD|}exp(exp(g,X),Y)
 M -> C:  {|C, M, OD, PRICE|}exp(exp(g,X),Y)
 C->pg :{C, M, pg, NCC}pk(pg)
 pg->C :{C, M, pg, NCC, NPG}inv(pk(pg))
-C->pg : {C, M, pg,NCC, NPG, NC2, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
+C->pg : {C, M, pg,NCC, NPG, PRICE, {|card_number(C)|}sk(C, pg)}pk(pg)
 pg -> M: {C, M,pg, PRICE,VERCODE, Ts, Tsv,NPG}inv(pk(pg))
 M -> C : {|C,M, VERCODE, Ts, Tsv|}exp(exp(g,X),Y)
 
