@@ -3,7 +3,7 @@ Protocol: SEP_VER2
 
 Types:
 Agent C,M,pg;
-Number OD,PRICE,g,p,X,Y,NC,NM,VERCODE;
+Number OD,PRICE,g,X,Y,NC,NM,VERCODE;
 Function pk,card_number;
 
 Knowledge:
