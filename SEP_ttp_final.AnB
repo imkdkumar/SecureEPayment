@@ -1,0 +1,34 @@
+Protocol: MITID
+Types: 	Agent C,W,t;
+        Number NA,Sid,NT,OD,PRICE;
+	Function customerID,pk;
+	Symmetric_key SK;
+
+Knowledge:
+	C: t, W, C, pk(W), pk(t),customerID(C,t);
+	W: t, W, C, pk(W), inv(pk(W)), pk(t);
+	t: t, W, C, pk(W), pk(t), inv(pk(t)), customerID(C,t);
+
+where C!=W, W!=t, C!=t
+
+Actions:
+
+C -> W : C, W, Sid,OD
+W -> C : {C,W,Sid, t}inv(pk(W))
+
+C -> t: {C,W, Sid, customerID(C,t),NA,SK}pk(t)
+t -> C: {|C,W, Sid, NT|}SK
+C -> t: {C,W, Sid, NT}pk(t)
+
+t -> W: {{C,W, Sid, NA}inv(pk(t))}pk(W)
+
+W -> C: {W,C, Sid, PRICE}inv(pk(W))
+C -> W: {NA, Sid, PRICE}pk(W)
+
+Goals:
+C authenticates W on PRICE
+t weakly authenticates C on customerID(C,t)
+t authenticates C on NT
+W authenticates C on NA
+SK secret between C,t
+
