@@ -1,0 +1,34 @@
+Protocol: SEP_FORMAT
+
+Types:
+Agent C,M,pg;
+Number OD,PRICE,g,p,X,Y,NC,NM,NO,Ts,Tsv,VERCODE,NPG,NCC, NC2;
+Function pk,card_number;
+Symmetric_key SK;
+Format f1, f2, f3, f4, f5, f6, f7, f8, f9;
+Knowledge:
+
+C: M,C,pg,pk(M),pk(pg), card_number(C),g, sk(C, pg);
+M: C,M,pg,pk(M),pk(pg),inv(pk(M)),g;
+pg: C,M,pg,pk(M),pk(pg),inv(pk(pg)), sk(C, pg);
+
+Actions:
+
+C -> M : {f1(C, M, NC, exp(g,X))}pk(M)
+M -> C : {f2(C, M, NC, NM,exp(g,Y))}inv(pk(M))
+C -> M : {f3(|C, M, OD|)}exp(exp(g,X),Y)
+M -> C:  {f4(|C, M, OD, PRICE|)}exp(exp(g,X),Y)
+C->pg :{f5(C, M, pg, NCC)}pk(pg)
+pg->C :{f6(C, M, pg, NCC, NPG)}inv(pk(pg))
+C->pg : {f7(C, M, pg,NCC, NPG, NC2, PRICE, {|card_number(C)|)}sk(C, pg)}pk(pg)
+pg -> M: {f8(C, M,pg, PRICE,VERCODE, Ts, Tsv,NPG)}inv(pk(pg))
+M -> C : {f9(|C,M, VERCODE, Ts, Tsv|)}exp(exp(g,X),Y)
+
+Goals:
+#following goals are valid for 2 session
+C authenticates M on exp(exp(g,X), Y),PRICE
+card_number(C) secret between C, pg
+M authenticates C on exp(exp(g,X),Y), OD
+OD secret between M, C
+exp(exp(g,X),Y) secret between C, M
+pg authenticates C on NCC, card_number(C)
