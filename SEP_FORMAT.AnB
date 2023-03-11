@@ -4,7 +4,6 @@ Types:
 Agent C,M,pg;
 Number OD,PRICE,g,p,X,Y,NC,NM,NO,Ts,Tsv,VERCODE,NPG,NCC, NC2;
 Function pk,card_number;
-Symmetric_key SK;
 Format f1, f2, f3, f4, f5, f6, f7, f8, f9;
 Knowledge:
 
